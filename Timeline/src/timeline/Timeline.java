@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import timeline.game.Board;
+import timeline.game.material.Card;
 
 /**
  *
@@ -49,6 +50,10 @@ public class Timeline extends Application {
         //launch(args);
         
         Board board = Board.getInstance();
+        System.out.println("Number of cards: " +board.getNumberOfCardsLeft());
+        Card card = board.drawCard();
+        System.out.println("Card: " +card.getDate());
+        System.out.println("Number of cards: " +board.getNumberOfCardsLeft());
     }
     
 }
