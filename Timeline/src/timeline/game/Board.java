@@ -23,10 +23,10 @@ public class Board {
         }
     }
     
-    public Board getInstance() {
-        if (this.instance == null) 
+    public static Board getInstance() {
+        if (instance == null) 
             instance = new Board();
         
-        return this.instance;
+        return instance;
     }
 }
