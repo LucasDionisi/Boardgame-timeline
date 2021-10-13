@@ -63,8 +63,10 @@ public class Board {
             this.discard.add(card);
     }
     
-    public void playCard(int index, Card card) {
-        if (this.playedCards != null && card != null)
+    public boolean playCard(int index, Card card) throws Exception {
+        if (this.playedCards == null || card == null)
+            throw new Exception();
+        
             this.playedCards.add(index, card);
     }
     
