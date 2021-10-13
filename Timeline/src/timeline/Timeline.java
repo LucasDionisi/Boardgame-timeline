@@ -55,6 +55,15 @@ public class Timeline extends Application {
         player2 = new Player("Tata");
         
         Board board = Board.getInstance();
+        
+        for (int i = 0; i < Board.NB_CARDS_PER_PLAYER; i++) {
+            player1.drawCard(board.drawCard());
+            player2.drawCard(board.drawCard());
+        }
+        
+        System.out.println(player1.toString());
+        System.out.println(player2.toString());
+        
         System.out.println("Number of cards: " +board.getNumberOfCardsLeft());
         Card card = board.drawCard();
         System.out.println("Card: " +card.getDate());

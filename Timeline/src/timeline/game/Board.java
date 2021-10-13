@@ -11,6 +11,7 @@ import timeline.game.material.Card;
  */
 public class Board {
     public final static int NB_CARDS_IN_DECK = 50;
+    public final static int NB_CARDS_PER_PLAYER = 4;
     
     private static Board instance;
     private List<Card> deck;
