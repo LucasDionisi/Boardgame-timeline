@@ -19,6 +19,10 @@ public class Player {
             hand = new ArrayList<>();
     }
     
+    public String getPseudo() {
+        return this.pseudo;
+    }
+    
     public List<Card> getHand() {
         return this.hand;
     }

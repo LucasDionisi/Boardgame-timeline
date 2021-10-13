@@ -10,7 +10,10 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import timeline.game.Board;
 import timeline.game.Player;
@@ -52,6 +55,9 @@ public class Timeline extends Application {
         float marginP1 = WIDTH - (CARD_WIDTH * player1.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player1.getHand().size() - 1));
         float marginP2 = WIDTH - (CARD_WIDTH * player2.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player2.getHand().size() - 1));
         
+        Text textP1 = new Text(10, 40, "Player: " +player1.getPseudo());
+        textP1.setFont(new Font(20));
+        root.getChildren().add(textP1);
         for (int i = 0; i < player1.getHand().size(); i++) {
             Rectangle rectangle = new Rectangle();
             rectangle.setX((marginP1 / 2) + i *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
@@ -62,6 +68,9 @@ public class Timeline extends Application {
             root.getChildren().add(rectangle);
         }
         
+        Text textP2 = new Text(10, HEIGHT - 40, "Player: " +player2.getPseudo());
+        textP2.setFont(new Font(20));
+        root.getChildren().add(textP2);
         for (int i = 0; i < player2.getHand().size(); i++) {
             Rectangle rectangle = new Rectangle();
             rectangle.setX((marginP2 / 2) + i *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
