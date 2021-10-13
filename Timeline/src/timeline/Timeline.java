@@ -5,6 +5,7 @@
  */
 package timeline;
 
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -28,7 +29,7 @@ public class Timeline extends Application {
     private static final int CARD_WIDTH = 70;
     
     private static final int CARD_MARGIN_HORIZONTAL = 40;
-    private static final int CARD_MARGIN_VERTICAL = 50;
+    private static final int CARD_MARGIN_VERTICAL = 20;
     
     Player player1, player2;
     boolean isPlaying, isPlayer1Turn;
@@ -53,7 +54,7 @@ public class Timeline extends Application {
         
         for (int i = 0; i < player1.getHand().size(); i++) {
             Rectangle rectangle = new Rectangle();
-            rectangle.setX((marginP1/2) + i*(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            rectangle.setX((marginP1 / 2) + i *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
             rectangle.setY(CARD_MARGIN_VERTICAL);
             rectangle.setWidth(CARD_WIDTH);
             rectangle.setHeight(CARD_HEIGHT);
@@ -63,8 +64,23 @@ public class Timeline extends Application {
         
         for (int i = 0; i < player2.getHand().size(); i++) {
             Rectangle rectangle = new Rectangle();
-            rectangle.setX((marginP2/2) + i*(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            rectangle.setX((marginP2 / 2) + i *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
             rectangle.setY(HEIGHT - CARD_MARGIN_VERTICAL - CARD_HEIGHT);
+            rectangle.setWidth(CARD_WIDTH);
+            rectangle.setHeight(CARD_HEIGHT);
+            
+            root.getChildren().add(rectangle);
+        }
+    }
+    
+    public void drawPlayedCards(Group root) {
+        List<Card> playedCards = Board.getInstance().getPlayedCards();
+        float margin = WIDTH - (CARD_WIDTH * playedCards.size()) - (CARD_MARGIN_HORIZONTAL * (playedCards.size() - 1));
+        
+        for (int i = 0; i < playedCards.size(); i++) {
+            Rectangle rectangle = new Rectangle();
+            rectangle.setX((margin / 2) + i * (CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            rectangle.setY((HEIGHT / 2) - (CARD_HEIGHT / 2));
             rectangle.setWidth(CARD_WIDTH);
             rectangle.setHeight(CARD_HEIGHT);
             
@@ -82,6 +98,7 @@ public class Timeline extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         
         drawHands(root);
+        drawPlayedCards(root);
         
         primaryStage.setTitle("Timeline");
         primaryStage.setScene(scene);
