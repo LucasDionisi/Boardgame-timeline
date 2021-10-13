@@ -14,11 +14,20 @@ public class Board {
     public final static int NB_CARDS_PER_PLAYER = 4;
     
     private static Board instance;
+
     private List<Card> deck;
+    private List<Card> discard;
+    private List<Card> playedCards;
     
     private Board() {
         if (deck == null)
             deck = new ArrayList<>();
+        
+        if (discard == null)
+            discard = new ArrayList<>();
+        
+        if (playedCards == null)
+            playedCards = new ArrayList<>();
         
         for (int i = 0; i < NB_CARDS_IN_DECK; i++) {
             this.deck.add(new Card("This is a description", 1950+i));
@@ -34,7 +43,7 @@ public class Board {
         return instance;
     }
     
-    public void shuffleDeck() {
+    private void shuffleDeck() {
         Collections.shuffle(deck);
     }
     
@@ -47,5 +56,19 @@ public class Board {
     
     public int getNumberOfCardsLeft() {
         return this.deck.size();
+    }
+
+    public void discardCard(Card card) {
+        if (this.discard != null && card != null)
+            this.discard.add(card);
+    }
+    
+    public void playCard(int index, Card card) {
+        if (this.playedCards != null && card != null)
+            this.playedCards.add(index, card);
+    }
+    
+    public List<Card> getPlayedCards() {
+        return this.playedCards;
     }
 }
