@@ -63,10 +63,26 @@ public class Board {
             this.discard.add(card);
     }
     
-    public boolean playCard(int index, Card card) throws Exception {
-        if (this.playedCards == null || card == null)
-            throw new Exception();
+    public boolean isGoodPlay(int index, Card card) {
+        int indexPrv, indexNxt;
+        indexPrv = index - 1;
+        indexNxt = index;
         
+        if (indexPrv >= 0 && indexPrv < this.playedCards.size()) {
+            if (card.getDate() < this.playedCards.get(indexPrv).getDate()) 
+                return false;
+        }
+        
+        if (indexNxt >= 0 && indexPrv < this.playedCards.size()) {
+            if (card.getDate() > this.playedCards.get(indexNxt).getDate())
+                return false;
+        }
+        
+        return true;
+    }
+    
+    public void playCard(int index, Card card) {
+        if (this.playedCards != null && card != null)
             this.playedCards.add(index, card);
     }
     

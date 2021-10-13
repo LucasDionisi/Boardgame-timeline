@@ -25,7 +25,7 @@ public class Timeline /*extends Application*/ {
     /*
     @Override
     public void start(Stage primaryStage) {
-        /*Button btn = new Button();
+        Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -43,8 +43,8 @@ public class Timeline /*extends Application*/ {
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-    */
+    }*/
+    
     /**
      * @param args the command line arguments
      */
@@ -71,7 +71,7 @@ public class Timeline /*extends Application*/ {
         boolean isPlayer1Turn = true;
         
         Scanner scanner = new Scanner(System.in); 
-        System.err.println("coucou");
+
         while (isPlaying) {
            System.out.println(board.playedCardsToString());
            System.out.println("Select a card to play.");
@@ -83,8 +83,17 @@ public class Timeline /*extends Application*/ {
            
            System.out.println("Where play the card?");
            int indexToPlay = Integer.parseInt(scanner.nextLine());
-           board.playCard(indexToPlay, cardPlayed);
            
+           if (board.isGoodPlay(indexToPlay, cardPlayed)) {
+               board.playCard(indexToPlay, cardPlayed);
+           } else {
+               board.discardCard(cardPlayed);
+               if (isPlayer1Turn) {
+                   player1.drawCard(board.drawCard());
+               } else  {
+                   player2.drawCard(board.drawCard());
+               }
+           }
            isPlayer1Turn = !isPlayer1Turn;
            
            if (player1.getHand().isEmpty() ||player2.getHand().isEmpty())
