@@ -1,6 +1,7 @@
 package timeline.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import timeline.game.material.Card;
 
@@ -21,6 +22,8 @@ public class Board {
         for (int i = 0; i < NB_CARDS_IN_DECK; i++) {
             this.deck.add(new Card("This is a description", 1950+i));
         }
+        
+        shuffleDeck();
     }
     
     public static Board getInstance() {
@@ -28,5 +31,17 @@ public class Board {
             instance = new Board();
         
         return instance;
+    }
+    
+    public void shuffleDeck() {
+        Collections.shuffle(deck);
+    }
+    
+    public Card drawCard() {
+        return this.deck.remove(0);
+    }
+    
+    public int getNumberOfCardsLeft() {
+        return this.deck.size();
     }
 }

@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import timeline.game.Board;
 
 /**
  *
@@ -46,6 +47,8 @@ public class Timeline extends Application {
      */
     public static void main(String[] args) {
         //launch(args);
+        
+        Board board = Board.getInstance();
     }
     
 }
