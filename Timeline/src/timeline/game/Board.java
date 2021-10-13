@@ -8,11 +8,15 @@ import timeline.game.material.Card;
  * @author lucas
  */
 public class Board {
+    public final static int NB_CARDS_IN_DECK = 50;
+    
     private static Board instance;
     private List<Card> deck;
     
     private Board() {
-        //TODO
+        for (int i = 0; i < NB_CARDS_IN_DECK; i++) {
+            this.deck.add(new Card("This is a description", 1950+i));
+        }
     }
     
     public Board getInstance() {
