@@ -43,6 +43,7 @@ public class Player {
         
         stringBuilder.append("Player: ");
         stringBuilder.append(this.pseudo);
+        stringBuilder.append("\n");
         
         for (Card card : this.hand) {
             stringBuilder.append(card.toString());
