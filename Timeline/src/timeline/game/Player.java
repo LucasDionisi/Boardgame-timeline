@@ -23,4 +23,14 @@ public class Player {
     public void drawCard(Card card) {
         this.hand.add(card);
     }
+    
+    public Card playCard(int index) {
+        Card card;
+        try {
+          card = this.hand.remove(index);
+          return card;
+        } catch (Exception exception) {
+            return null;
+        }
+    }
 }
