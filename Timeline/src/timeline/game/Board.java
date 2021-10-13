@@ -38,7 +38,10 @@ public class Board {
     }
     
     public Card drawCard() {
-        return this.deck.remove(0);
+        if (this.deck != null &&  !this.deck.isEmpty())
+            return this.deck.remove(0);
+        else
+            return null;
     }
     
     public int getNumberOfCardsLeft() {
