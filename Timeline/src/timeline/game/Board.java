@@ -71,4 +71,16 @@ public class Board {
     public List<Card> getPlayedCards() {
         return this.playedCards;
     }
+    
+    public String playedCardsToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Played cards :\n");
+        
+        for (Card card : this.playedCards) {
+            stringBuilder.append(card.toString());
+            stringBuilder.append("--------------\n");
+        }
+        
+        return stringBuilder.toString();
+    }
 }

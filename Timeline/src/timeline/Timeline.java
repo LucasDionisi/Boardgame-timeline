@@ -5,6 +5,7 @@
  */
 package timeline;
 
+import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,8 +21,8 @@ import timeline.game.material.Card;
  *
  * @author lucas
  */
-public class Timeline extends Application {
-    
+public class Timeline /*extends Application*/ {
+    /*
     @Override
     public void start(Stage primaryStage) {
         /*Button btn = new Button();
@@ -41,9 +42,9 @@ public class Timeline extends Application {
         
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
-        primaryStage.show();*/
+        primaryStage.show();
     }
-    
+    */
     /**
      * @param args the command line arguments
      */
@@ -64,10 +65,31 @@ public class Timeline extends Application {
         System.out.println(player1.toString());
         System.out.println(player2.toString());
         
-        System.out.println("Number of cards: " +board.getNumberOfCardsLeft());
-        Card card = board.drawCard();
-        System.out.println("Card: " +card.getDate());
-        System.out.println("Number of cards: " +board.getNumberOfCardsLeft());
+        board.playCard(0, board.drawCard());
+        
+        boolean isPlaying = true;
+        boolean isPlayer1Turn = true;
+        
+        Scanner scanner = new Scanner(System.in); 
+        System.err.println("coucou");
+        while (isPlaying) {
+           System.out.println(board.playedCardsToString());
+           System.out.println("Select a card to play.");
+           System.out.println(isPlayer1Turn ? player1 : player2);
+           
+           int indexOfCard = Integer.parseInt(scanner.nextLine());
+           Card cardPlayed = isPlayer1Turn ? player1.playCard(indexOfCard) : player2.playCard(indexOfCard);
+           System.out.println(cardPlayed.toString());
+           
+           System.out.println("Where play the card?");
+           int indexToPlay = Integer.parseInt(scanner.nextLine());
+           board.playCard(indexToPlay, cardPlayed);
+           
+           isPlayer1Turn = !isPlayer1Turn;
+           
+           if (player1.getHand().isEmpty() ||player2.getHand().isEmpty())
+               isPlaying = false;
+        }
     }
     
 }
