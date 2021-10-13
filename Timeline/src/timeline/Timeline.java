@@ -51,12 +51,13 @@ public class Timeline extends Application {
         board.playCard(0, board.drawCard());
     }
     
-    public void drawHands(Group root) {
+    public void drawHands(Group root, boolean isPlayer1Turn) {
         float marginP1 = WIDTH - (CARD_WIDTH * player1.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player1.getHand().size() - 1));
         float marginP2 = WIDTH - (CARD_WIDTH * player2.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player2.getHand().size() - 1));
         
         Text textP1 = new Text(10, 40, "Player: " +player1.getPseudo());
         textP1.setFont(new Font(20));
+        if (isPlayer1Turn) textP1.setFill(Color.RED);
         root.getChildren().add(textP1);
         for (int i = 0; i < player1.getHand().size(); i++) {
             Rectangle rectangle = new Rectangle();
@@ -70,6 +71,7 @@ public class Timeline extends Application {
         
         Text textP2 = new Text(10, HEIGHT - 40, "Player: " +player2.getPseudo());
         textP2.setFont(new Font(20));
+        if (!isPlayer1Turn) textP2.setFill(Color.RED);
         root.getChildren().add(textP2);
         for (int i = 0; i < player2.getHand().size(); i++) {
             Rectangle rectangle = new Rectangle();
@@ -106,7 +108,7 @@ public class Timeline extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         
-        drawHands(root);
+        drawHands(root, isPlayer1Turn);
         drawPlayedCards(root);
         
         primaryStage.setTitle("Timeline");
