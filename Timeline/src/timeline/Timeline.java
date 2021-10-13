@@ -6,11 +6,15 @@
 package timeline;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import timeline.game.Board;
 import timeline.game.Player;
+import timeline.game.material.Card;
+
 /**
  *
  * @author lucas
@@ -19,6 +23,12 @@ public class Timeline extends Application {
     
     private static final int HEIGHT = 720;
     private static final int WIDTH = 1280;
+    
+    private static final int CARD_HEIGHT = 100;
+    private static final int CARD_WIDTH = 70;
+    
+    private static final int CARD_MARGIN_HORIZONTAL = 40;
+    private static final int CARD_MARGIN_VERTICAL = 50;
     
     Player player1, player2;
     boolean isPlaying, isPlayer1Turn;
@@ -37,18 +47,43 @@ public class Timeline extends Application {
         board.playCard(0, board.drawCard());
     }
     
+    public void drawHands(Group root) {
+        float marginP1 = WIDTH - (CARD_WIDTH * player1.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player1.getHand().size() - 1));
+        float marginP2 = WIDTH - (CARD_WIDTH * player2.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player2.getHand().size() - 1));
+        
+        for (int i = 0; i < player1.getHand().size(); i++) {
+            Rectangle rectangle = new Rectangle();
+            rectangle.setX((marginP1/2) + i*(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            rectangle.setY(CARD_MARGIN_VERTICAL);
+            rectangle.setWidth(CARD_WIDTH);
+            rectangle.setHeight(CARD_HEIGHT);
+            
+            root.getChildren().add(rectangle);
+        }
+        
+        for (int i = 0; i < player2.getHand().size(); i++) {
+            Rectangle rectangle = new Rectangle();
+            rectangle.setX((marginP2/2) + i*(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            rectangle.setY(HEIGHT - CARD_MARGIN_VERTICAL - CARD_HEIGHT);
+            rectangle.setWidth(CARD_WIDTH);
+            rectangle.setHeight(CARD_HEIGHT);
+            
+            root.getChildren().add(rectangle);
+        }
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         setup();
         isPlaying = true;
         isPlayer1Turn = true;
         
-        StackPane root = new StackPane();
+        Group root = new Group();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
+        
+        drawHands(root);
+        
         primaryStage.setTitle("Timeline");
-        
-        
-        
         primaryStage.setScene(scene);
         primaryStage.show();
     }
