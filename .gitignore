@@ -1,0 +1,16 @@
+# NetBeans specific #
+/Timeline/nbproject/private/
+/Timeline/build/
+/Timeline/nbbuild/
+/Timeline/dist/
+/Timeline/nbdist/
+/Timeline/nbactions.xml
+/Timeline/nb-configuration.xml
+
+# Class Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
