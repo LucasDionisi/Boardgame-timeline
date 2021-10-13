@@ -5,55 +5,27 @@
  */
 package timeline;
 
-import java.util.Scanner;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import timeline.game.Board;
 import timeline.game.Player;
-import timeline.game.material.Card;
-
 /**
  *
  * @author lucas
  */
-public class Timeline /*extends Application*/ {
-    /*
-    @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }*/
+public class Timeline extends Application {
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        //launch(args);
-
-        Player player1, player2;
-        player1 = new Player("Toto");
-        player2 = new Player("Tata");
+    private static final int HEIGHT = 720;
+    private static final int WIDTH = 1280;
+    
+    Player player1, player2;
+    boolean isPlaying, isPlayer1Turn;
+    
+    public void setup() {
+        this.player1 = new Player("toto");
+        this.player2 = new Player("tata");
         
         Board board = Board.getInstance();
         
@@ -62,16 +34,31 @@ public class Timeline /*extends Application*/ {
             player2.drawCard(board.drawCard());
         }
         
-        System.out.println(player1.toString());
-        System.out.println(player2.toString());
-        
         board.playCard(0, board.drawCard());
+    }
+    
+    @Override
+    public void start(Stage primaryStage) {
+        setup();
+        isPlaying = true;
+        isPlayer1Turn = true;
         
-        boolean isPlaying = true;
-        boolean isPlayer1Turn = true;
+        StackPane root = new StackPane();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        primaryStage.setTitle("Timeline");
         
-        Scanner scanner = new Scanner(System.in); 
-
+        
+        
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+        /*
         while (isPlaying) {
            System.out.println(board.playedCardsToString());
            System.out.println("Select a card to play.");
@@ -99,6 +86,7 @@ public class Timeline /*extends Application*/ {
            if (player1.getHand().isEmpty() ||player2.getHand().isEmpty())
                isPlaying = false;
         }
+        */
     }
     
 }
