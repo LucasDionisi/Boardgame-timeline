@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import timeline.game.Board;
+import timeline.game.Player;
 import timeline.game.material.Card;
 
 /**
@@ -42,12 +43,16 @@ public class Timeline extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();*/
     }
-
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         //launch(args);
+
+        Player player1, player2;
+        player1 = new Player("Toto");
+        player2 = new Player("Tata");
         
         Board board = Board.getInstance();
         System.out.println("Number of cards: " +board.getNumberOfCardsLeft());

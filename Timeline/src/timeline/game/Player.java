@@ -9,9 +9,12 @@ import timeline.game.material.Card;
  * @author lucas
  */
 public class Player {
+    private String pseudo;
     private List<Card> hand;
     
-    public Player() {
+    public Player(String pseudo) {
+        this.pseudo = pseudo;
+        
         if (hand == null)
             hand = new ArrayList<>();
     }
@@ -32,5 +35,20 @@ public class Player {
         } catch (Exception exception) {
             return null;
         }
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        stringBuilder.append("Player: ");
+        stringBuilder.append(this.pseudo);
+        
+        for (Card card : this.hand) {
+            stringBuilder.append(card.toString());
+            stringBuilder.append("----------------\n");
+        }
+        
+        return stringBuilder.toString();
     }
 }

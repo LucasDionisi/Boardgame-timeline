@@ -28,4 +28,18 @@ public class Card {
     public int getDate() {
         return this.date;
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        stringBuilder.append("Description: ");
+        stringBuilder.append(this.description);
+        stringBuilder.append("\n");
+        stringBuilder.append("Date: ");
+        stringBuilder.append(this.date);
+        stringBuilder.append("\n");
+        
+        return stringBuilder.toString();
+    }
 }
