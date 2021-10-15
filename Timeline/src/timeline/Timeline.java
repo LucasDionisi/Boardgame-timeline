@@ -105,11 +105,38 @@ public class Timeline extends Application {
         }
     }
     
+    private Card getCardClicked(double x, double y, List<Card> cards) {
+        
+        for (Card card : cards) {
+            double cardX = card.getRectangle().getX();
+            double cardY = card.getRectangle().getY();
+            
+            if ((x >= cardX && x <= (cardX + CARD_WIDTH)) && (y >= cardY && y <= (cardY + CARD_HEIGHT))) {
+                return card;
+            }
+        }
+        
+        return null;
+    }
+    
+    private Card getCardClicked(double x, double y) {
+        if (y < HEIGHT/3) {
+            return getCardClicked(x, y, player1.getHand());
+        } else if (y < HEIGHT/3*2) {
+            return getCardClicked(x, y, Board.getInstance().getPlayedCards());
+        } else if (y < HEIGHT) {
+            return getCardClicked(x, y, player2.getHand());
+        }
+        
+        return null;
+    }
+    
     EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            System.out.println("x: " +mouseEvent.getX());
-            System.out.println("y: " +mouseEvent.getY());
+            Card card = getCardClicked(mouseEvent.getX(), mouseEvent.getY());
+            if (card != null) 
+                System.out.println("Card: " +card.getDate());
         }
     };
     
