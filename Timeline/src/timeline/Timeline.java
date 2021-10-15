@@ -7,11 +7,15 @@ package timeline;
 
 import java.util.List;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -95,9 +99,18 @@ public class Timeline extends Application {
             rectangle.setWidth(CARD_WIDTH);
             rectangle.setHeight(CARD_HEIGHT);
             
+            rectangle.setOnMouseClicked(handleMouseClick);
+            
             root.getChildren().add(rectangle);
         }
     }
+    
+    EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            System.out.println("coucou");
+        }
+    };
     
     @Override
     public void start(Stage primaryStage) {
