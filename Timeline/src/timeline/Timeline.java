@@ -87,32 +87,29 @@ public class Timeline extends Application {
         List<Card> playedCards = Board.getInstance().getPlayedCards();
         float margin = WIDTH - (CARD_WIDTH * playedCards.size()) - (CARD_MARGIN_HORIZONTAL * (playedCards.size() - 1));
         
-        int index = 0;
-        for (Card card : playedCards) {
-            card.getRectangle().setX((margin / 2) + index++ * (CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
-            card.getRectangle().setY((HEIGHT / 2) - (CARD_HEIGHT / 2));
-            card.getRectangle().setWidth(CARD_WIDTH);
-            card.getRectangle().setHeight(CARD_HEIGHT);
+        for (int i = 0; i < playedCards.size(); i++) {
+            Rectangle rectangle = new Rectangle();
+            rectangle.setX((margin / 2) + i * (CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            rectangle.setY((HEIGHT / 2) - (CARD_HEIGHT / 2));
+            rectangle.setWidth(CARD_WIDTH);
+            rectangle.setHeight(CARD_HEIGHT);
             
-            Text date = new Text(card.getRectangle().getX(), card.getRectangle().getY() + CARD_HEIGHT - 5, Integer.toString(playedCards.get(index).getDate()));
+            Text date = new Text(rectangle.getX(), rectangle.getY() + CARD_HEIGHT - 5, Integer.toString(playedCards.get(i).getDate()));
             date.setFont(new Font(20));
             date.setFill(Color.WHITE);
             
-            card.getRectangle().setOnMouseClicked(handleMouseClick);
+            rectangle.setOnMouseClicked(handleMouseClick);
             
-            root.getChildren().add(card.getRectangle());
+            root.getChildren().add(rectangle);
             root.getChildren().add(date);
-            
-            index++;
         }
     }
-    
-
     
     EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            System.out.println("coucou");
+            System.out.println("x: " +mouseEvent.getX());
+            System.out.println("y: " +mouseEvent.getY());
         }
     };
     
