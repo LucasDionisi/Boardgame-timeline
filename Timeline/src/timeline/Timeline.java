@@ -39,18 +39,18 @@ public class Timeline extends Application {
     private static final int CARD_MARGIN_HORIZONTAL = 40;
     private static final int CARD_MARGIN_VERTICAL = 20;
     
-    List<Player> players;
+    Player player1, player2;
     boolean isPlaying, isPlayer1Turn;
     
     public void setup() {
-        this.players.add(new Player("toto", Position.TOP));
-        this.players.add(new Player("tata", Position.BOTTOM));
+        this.player1 = new Player("toto", Position.TOP);
+        this.player2 = new Player("tata", Position.BOTTOM);
         
         Board board = Board.getInstance();
         
         for (int i = 0; i < Board.NB_CARDS_PER_PLAYER; i++) {
-            for (Player player : players)
-                player.drawCard(board.drawCard());
+            player1.drawCard(board.drawCard());
+            player2.drawCard(board.drawCard());
         }
         
         board.playCard(0, board.drawCard());
@@ -107,16 +107,12 @@ public class Timeline extends Application {
         }
     }
     
-    public Card getCardByPosition(double x, double y) {
-        
-        return null;
-    }
+
     
     EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            Card card = getCardByPosition(mouseEvent.getX(), mouseEvent.getY());
-            System.out.println("date: " +card.getDate());
+            System.out.println("coucou");
         }
     };
     
@@ -129,9 +125,8 @@ public class Timeline extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         
-        for (Player player : this.players) {
-            drawHand(root, player, isPlayer1Turn);
-        }
+        drawHand(root, player1, isPlayer1Turn);
+        drawHand(root, player2, isPlayer1Turn);
         
         drawPlayedCards(root);
         
