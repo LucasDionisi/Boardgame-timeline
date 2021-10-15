@@ -25,22 +25,6 @@ public class Card {
         return this.rectangle;
     }
     
-    public void setRectangleX(double x) {
-        this.rectangle.setX(x);
-    }
-    
-    public void setRectangleY(double y) {
-        this.rectangle.setY(y);
-    }
-    
-    public void setRectangleWidth(double width) {
-        this.rectangle.setWidth(width);
-    }
-    
-    public void setRectangleHeight(double height) {
-        this.rectangle.setHeight(height);
-    }
-    
     public void setDescription(String description) {
         this.description = description;
     }

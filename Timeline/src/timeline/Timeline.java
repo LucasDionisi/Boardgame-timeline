@@ -67,13 +67,18 @@ public class Timeline extends Application {
         
         int index = 0;
         for (Card card : player.getHand()) {
-            card.setRectangleX((margin / 2) + index *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
-            card.setRectangleY(player.isPositionTop() ? CARD_MARGIN_VERTICAL : HEIGHT - CARD_MARGIN_VERTICAL - CARD_HEIGHT);
-            card.setRectangleWidth(CARD_WIDTH);
-            card.setRectangleHeight(CARD_HEIGHT);
+            card.getRectangle().setX((margin / 2) + index *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            card.getRectangle().setY(player.isPositionTop() ? CARD_MARGIN_VERTICAL : HEIGHT - CARD_MARGIN_VERTICAL - CARD_HEIGHT);
+            card.getRectangle().setWidth(CARD_WIDTH);
+            card.getRectangle().setHeight(CARD_HEIGHT);
             
+            Text date = new Text(card.getRectangle().getX(), card.getRectangle().getY() + CARD_HEIGHT - 5, Integer.toString(card.getDate()));
+            date.setFont(new Font(20));
+            date.setFill(Color.WHITE);
+           
             card.getRectangle().setOnMouseClicked(handleMouseClick);
             root.getChildren().add(card.getRectangle());
+            root.getChildren().add(date);
             index++;
         }
     }
@@ -89,16 +94,22 @@ public class Timeline extends Application {
             rectangle.setWidth(CARD_WIDTH);
             rectangle.setHeight(CARD_HEIGHT);
             
+            Text date = new Text(rectangle.getX(), rectangle.getY() + CARD_HEIGHT - 5, Integer.toString(playedCards.get(i).getDate()));
+            date.setFont(new Font(20));
+            date.setFill(Color.WHITE);
+            
             rectangle.setOnMouseClicked(handleMouseClick);
             
             root.getChildren().add(rectangle);
+            root.getChildren().add(date);
         }
     }
     
     EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            System.out.println(this);
+            System.out.println("x: " +mouseEvent.getX());
+            System.out.println("y: " +mouseEvent.getY());
         }
     };
     
