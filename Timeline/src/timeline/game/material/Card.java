@@ -1,5 +1,7 @@
 package timeline.game.material;
 
+import javafx.scene.shape.Rectangle;
+
 /**
  *
  * @author lucas
@@ -7,10 +9,36 @@ package timeline.game.material;
 public class Card {
     private String description;
     private int date;
+    private Rectangle rectangle;
     
     public Card(String descriprtion, int date) {
+        this(descriprtion, date, new Rectangle());
+    }
+    
+    public Card(String descriprtion, int date, Rectangle rectangle) {
+        this.rectangle = rectangle;
         this.description = descriprtion;
         this.date = date;
+    }
+    
+    public Rectangle getRectangle() {
+        return this.rectangle;
+    }
+    
+    public void setRectangleX(double x) {
+        this.rectangle.setX(x);
+    }
+    
+    public void setRectangleY(double y) {
+        this.rectangle.setY(y);
+    }
+    
+    public void setRectangleWidth(double width) {
+        this.rectangle.setWidth(width);
+    }
+    
+    public void setRectangleHeight(double height) {
+        this.rectangle.setHeight(height);
     }
     
     public void setDescription(String description) {

@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import timeline.game.Board;
 import timeline.game.Player;
 import timeline.game.material.Card;
+import timeline.game.tools.Position;
 
 /**
  *
@@ -42,8 +43,8 @@ public class Timeline extends Application {
     boolean isPlaying, isPlayer1Turn;
     
     public void setup() {
-        this.player1 = new Player("toto");
-        this.player2 = new Player("tata");
+        this.player1 = new Player("toto", Position.TOP);
+        this.player2 = new Player("tata", Position.BOTTOM);
         
         Board board = Board.getInstance();
         
@@ -55,39 +56,28 @@ public class Timeline extends Application {
         board.playCard(0, board.drawCard());
     }
     
-    public void drawHands(Group root, boolean isPlayer1Turn) {
-        float marginP1 = WIDTH - (CARD_WIDTH * player1.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player1.getHand().size() - 1));
-        float marginP2 = WIDTH - (CARD_WIDTH * player2.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player2.getHand().size() - 1));
+    public void drawHand(Group root, Player player, boolean isPlayer1Turn) {
+        float margin = WIDTH - (CARD_WIDTH * player.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player.getHand().size() - 1));
         
-        Text textP1 = new Text(10, 40, "Player: " +player1.getPseudo());
-        textP1.setFont(new Font(20));
-        if (isPlayer1Turn) textP1.setFill(Color.RED);
-        root.getChildren().add(textP1);
-        for (int i = 0; i < player1.getHand().size(); i++) {
-            Rectangle rectangle = new Rectangle();
-            rectangle.setX((marginP1 / 2) + i *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
-            rectangle.setY(CARD_MARGIN_VERTICAL);
-            rectangle.setWidth(CARD_WIDTH);
-            rectangle.setHeight(CARD_HEIGHT);
-            
-            root.getChildren().add(rectangle);
-        }
+        Text text = new Text(10, player.isPositionTop() ? 40 : HEIGHT - 40, "Player: " +player.getPseudo());
+        text.setFont(new Font(20));
+        if (isPlayer1Turn && player.isPositionTop())
+            text.setFill(Color.RED);
+        root.getChildren().add(text);
         
-        Text textP2 = new Text(10, HEIGHT - 40, "Player: " +player2.getPseudo());
-        textP2.setFont(new Font(20));
-        if (!isPlayer1Turn) textP2.setFill(Color.RED);
-        root.getChildren().add(textP2);
-        for (int i = 0; i < player2.getHand().size(); i++) {
-            Rectangle rectangle = new Rectangle();
-            rectangle.setX((marginP2 / 2) + i *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
-            rectangle.setY(HEIGHT - CARD_MARGIN_VERTICAL - CARD_HEIGHT);
-            rectangle.setWidth(CARD_WIDTH);
-            rectangle.setHeight(CARD_HEIGHT);
+        int index = 0;
+        for (Card card : player.getHand()) {
+            card.setRectangleX((margin / 2) + index *(CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
+            card.setRectangleY(player.isPositionTop() ? CARD_MARGIN_VERTICAL : HEIGHT - CARD_MARGIN_VERTICAL - CARD_HEIGHT);
+            card.setRectangleWidth(CARD_WIDTH);
+            card.setRectangleHeight(CARD_HEIGHT);
             
-            root.getChildren().add(rectangle);
+            card.getRectangle().setOnMouseClicked(handleMouseClick);
+            root.getChildren().add(card.getRectangle());
+            index++;
         }
     }
-    
+   
     public void drawPlayedCards(Group root) {
         List<Card> playedCards = Board.getInstance().getPlayedCards();
         float margin = WIDTH - (CARD_WIDTH * playedCards.size()) - (CARD_MARGIN_HORIZONTAL * (playedCards.size() - 1));
@@ -108,7 +98,7 @@ public class Timeline extends Application {
     EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            System.out.println("coucou");
+            System.out.println(this);
         }
     };
     
@@ -121,7 +111,9 @@ public class Timeline extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         
-        drawHands(root, isPlayer1Turn);
+        drawHand(root, player1, isPlayer1Turn);
+        drawHand(root, player2, isPlayer1Turn);
+        
         drawPlayedCards(root);
         
         primaryStage.setTitle("Timeline");

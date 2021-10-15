@@ -3,6 +3,7 @@ package timeline.game;
 import java.util.ArrayList;
 import java.util.List;
 import timeline.game.material.Card;
+import timeline.game.tools.Position;
 
 /**
  *
@@ -11,12 +12,18 @@ import timeline.game.material.Card;
 public class Player {
     private String pseudo;
     private List<Card> hand;
+    private Position position;
     
-    public Player(String pseudo) {
+    public Player(String pseudo, Position position) {
         this.pseudo = pseudo;
+        this.position = position;
         
         if (hand == null)
             hand = new ArrayList<>();
+    }
+    
+    public boolean isPositionTop() {
+        return this.position.equals(position.TOP);
     }
     
     public String getPseudo() {
