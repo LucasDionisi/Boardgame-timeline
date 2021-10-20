@@ -73,7 +73,7 @@ public class Board {
                 return false;
         }
         
-        if (indexNxt >= 0 && indexPrv < this.playedCards.size()) {
+        if (indexNxt >= 0 && indexNxt < this.playedCards.size()) {
             if (card.getDate() > this.playedCards.get(indexNxt).getDate())
                 return false;
         }

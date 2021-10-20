@@ -48,6 +48,16 @@ public class Player {
         }
     }
     
+    public Card playCard(Card playedCard) {
+        for (Card card : this.hand) {
+            if (card.equals(playedCard)) {
+                if (this.hand.remove(card)) return playedCard;
+                else return null;
+            }
+        }
+        return null;
+    }
+    
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

@@ -43,6 +43,8 @@ public class Timeline extends Application {
     private static final int STEP_1 = 1;
     private static final int STEP_2 = 2;
     
+    private Group root;
+    
     private Player player1, player2;
     private boolean isPlaying, isPlayer1Turn;
     private int step;
@@ -63,13 +65,13 @@ public class Timeline extends Application {
         board.playCard(0, board.drawCard());
     }
     
-    public void drawHand(Group root, Player player, boolean isPlayer1Turn) {
+    public void drawHand(Player player, boolean isPlayer1Turn) {
         float margin = WIDTH - (CARD_WIDTH * player.getHand().size()) - (CARD_MARGIN_HORIZONTAL * (player.getHand().size() - 1));
         
         Text text = new Text(10, player.isPositionTop() ? 40 : HEIGHT - 40, "Player: " +player.getPseudo());
         text.setFont(new Font(20));
-        if (isPlayer1Turn && player.isPositionTop())
-            text.setFill(Color.RED);
+        if (isPlayer1Turn && player.isPositionTop()) text.setFill(Color.RED);
+        if (!isPlayer1Turn && !player.isPositionTop()) text.setFill(Color.RED);
         root.getChildren().add(text);
         
         int index = 0;
@@ -90,7 +92,7 @@ public class Timeline extends Application {
         }
     }
    
-    public void drawPlayedCards(Group root) {
+    public void drawPlayedCards() {
         List<Card> playedCards = Board.getInstance().getPlayedCards();
         float margin = WIDTH - (CARD_WIDTH * playedCards.size()) - (CARD_MARGIN_HORIZONTAL * (playedCards.size() - 1));
         
@@ -121,12 +123,13 @@ public class Timeline extends Application {
             date.setFont(new Font(20));
             date.setFill(Color.WHITE);
             
-            card.getRectangle().setOnMouseClicked(handleMouseClickRect);
+            //card.getRectangle().setOnMouseClicked(handleMouseClickRect);
             circle.setOnMouseClicked(handleMouseClickCrcl);
             
             root.getChildren().add(circle);
             root.getChildren().add(card.getRectangle());
             root.getChildren().add(date);
+            index++;
         }
     }
     
@@ -176,6 +179,9 @@ public class Timeline extends Application {
         if (player != null) {
             if ((isPlayer1Turn && player.equals(player1)) || (!isPlayer1Turn && player.equals(player2))) {
                 this.selectedCard = card;
+                
+                System.out.println("Player: " +player.getPseudo() +", card: " +card.getDate());
+                
                 this.step = STEP_2;
             }
         }
@@ -198,7 +204,36 @@ public class Timeline extends Application {
         public void handle (MouseEvent mouseEvent) {
             if (step == STEP_2 && selectedCard != null) {
                 int index = getIndexOfPlay(mouseEvent.getX(), mouseEvent.getY(), selectedCard);
-                System.out.println("Index: " +index);
+                
+                Board board = Board.getInstance();
+                
+                System.out.println("Play " +selectedCard.getDate() +" at index " +index);
+                
+                if (isPlayer1Turn) selectedCard = player1.playCard(selectedCard);
+                else selectedCard = player2.playCard(selectedCard);
+
+                if (selectedCard != null) {
+                    if (board.isGoodPlay(index, selectedCard)) {
+                        board.playCard(index, selectedCard);
+                    } else {
+                        board.discardCard(selectedCard);
+                        if (isPlayer1Turn) player1.drawCard(board.drawCard());
+                        else player2.drawCard(board.drawCard());
+                    }
+                } else {
+                    System.err.println("Selected card is null after Player.playCard.");
+                }
+                
+                isPlayer1Turn = !isPlayer1Turn;
+                step = STEP_1;
+                
+                root.getChildren().clear();
+                drawHand(player1, isPlayer1Turn);
+                drawHand(player2, isPlayer1Turn);
+                drawPlayedCards();
+                
+                if (player1.getHand().isEmpty() || player2.getHand().isEmpty())
+                    isPlaying = false;
             }
         }
     };
@@ -217,13 +252,13 @@ public class Timeline extends Application {
         isPlaying = true;
         isPlayer1Turn = true;
         
-        Group root = new Group();
+        this.root = new Group();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         
-        drawHand(root, player1, isPlayer1Turn);
-        drawHand(root, player2, isPlayer1Turn);
+        drawHand(player1, isPlayer1Turn);
+        drawHand(player2, isPlayer1Turn);
         
-        drawPlayedCards(root);
+        drawPlayedCards();
         
         primaryStage.setTitle("Timeline");
         primaryStage.setScene(scene);
