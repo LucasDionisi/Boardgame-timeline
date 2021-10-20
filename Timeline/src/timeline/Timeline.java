@@ -43,8 +43,8 @@ public class Timeline extends Application {
     boolean isPlaying, isPlayer1Turn;
     
     public void setup() {
-        this.player1 = new Player("toto", Position.TOP);
-        this.player2 = new Player("tata", Position.BOTTOM);
+        this.player1 = new Player("Lucas", Position.TOP);
+        this.player2 = new Player("Margot", Position.BOTTOM);
         
         Board board = Board.getInstance();
         
@@ -113,6 +113,19 @@ public class Timeline extends Application {
             
             if ((x >= cardX && x <= (cardX + CARD_WIDTH)) && (y >= cardY && y <= (cardY + CARD_HEIGHT))) {
                 return card;
+            }
+        }
+        
+        return null;
+    }
+    
+    private Player getPlayerByCard(Card card, Player... players) {
+        if (card == null || players == null || players.length <= 0) 
+            return null;
+        
+        for (Player player : players) {
+            for (Card pCard : player.getHand()) {
+                if (pCard.equals(card)) return player;
             }
         }
         
