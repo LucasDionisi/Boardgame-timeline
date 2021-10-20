@@ -181,10 +181,25 @@ public class Timeline extends Application {
         }
     }
     
+    int getIndexOfPlay(double x, double y, Card card) {
+        
+        List<Card> playedCards = Board.getInstance().getPlayedCards();
+        
+        for (int i = 0; i < playedCards.size(); i++) {
+            if (x < playedCards.get(i).getRectangle().getX()) return i;
+            if ((i == playedCards.size() - 1) && (x > playedCards.get(i).getRectangle().getX())) return (i+1);
+        }
+        
+        return -1;
+    }
+    
     EventHandler<MouseEvent> handleMouseClickCrcl = new EventHandler<MouseEvent>() {
         @Override
         public void handle (MouseEvent mouseEvent) {
-            System.out.println(".handle()");
+            if (step == STEP_2 && selectedCard != null) {
+                int index = getIndexOfPlay(mouseEvent.getX(), mouseEvent.getY(), selectedCard);
+                System.out.println("Index: " +index);
+            }
         }
     };
     
@@ -192,13 +207,7 @@ public class Timeline extends Application {
         @Override
         public void handle(MouseEvent mouseEvent) {
             if (step == STEP_1)
-                    step1(mouseEvent.getX(), mouseEvent.getY());            
-            
-            /*if (card != null) 
-                System.out.println("Card: " +card.getDate());
-            if (player != null) 
-                System.out.println("Player: " +player.getPseudo());
-            */
+                    step1(mouseEvent.getX(), mouseEvent.getY());
         }
     };
     
