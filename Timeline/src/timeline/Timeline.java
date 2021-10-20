@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -39,8 +40,13 @@ public class Timeline extends Application {
     private static final int CARD_MARGIN_HORIZONTAL = 40;
     private static final int CARD_MARGIN_VERTICAL = 20;
     
-    Player player1, player2;
-    boolean isPlaying, isPlayer1Turn;
+    private static final int STEP_1 = 1;
+    private static final int STEP_2 = 2;
+    
+    private Player player1, player2;
+    private boolean isPlaying, isPlayer1Turn;
+    private int step;
+    private Card selectedCard;
     
     public void setup() {
         this.player1 = new Player("Lucas", Position.TOP);
@@ -53,6 +59,7 @@ public class Timeline extends Application {
             player2.drawCard(board.drawCard());
         }
         
+        this.step = STEP_1;
         board.playCard(0, board.drawCard());
     }
     
@@ -76,7 +83,7 @@ public class Timeline extends Application {
             date.setFont(new Font(20));
             date.setFill(Color.WHITE);
            
-            card.getRectangle().setOnMouseClicked(handleMouseClick);
+            card.getRectangle().setOnMouseClicked(handleMouseClickRect);
             root.getChildren().add(card.getRectangle());
             root.getChildren().add(date);
             index++;
@@ -88,7 +95,23 @@ public class Timeline extends Application {
         float margin = WIDTH - (CARD_WIDTH * playedCards.size()) - (CARD_MARGIN_HORIZONTAL * (playedCards.size() - 1));
         
         int index = 0;
+        Circle circleBfr = new Circle();
+        circleBfr.setCenterX(((margin / 2) + index * (CARD_WIDTH + CARD_MARGIN_HORIZONTAL)) - CARD_MARGIN_HORIZONTAL / 2);
+        circleBfr.setCenterY(((HEIGHT / 2) - (CARD_HEIGHT / 2)) + CARD_HEIGHT / 2);
+        circleBfr.setRadius(CARD_MARGIN_HORIZONTAL / 4);
+        circleBfr.setFill(Color.GREEN);
+        
+        circleBfr.setOnMouseClicked(handleMouseClickCrcl);
+        
+        root.getChildren().add(circleBfr);
+        
         for (Card card : playedCards) {
+            Circle circle = new Circle();
+            circle.setCenterX(((margin / 2) + index * (CARD_WIDTH + CARD_MARGIN_HORIZONTAL)) +CARD_WIDTH + CARD_MARGIN_HORIZONTAL/2);
+            circle.setCenterY(((HEIGHT / 2) - (CARD_HEIGHT / 2)) + CARD_HEIGHT/2);
+            circle.setRadius(CARD_MARGIN_HORIZONTAL/4);
+            circle.setFill(Color.GREEN);
+            
             card.getRectangle().setX((margin / 2) + index * (CARD_WIDTH + CARD_MARGIN_HORIZONTAL));
             card.getRectangle().setY((HEIGHT / 2) - (CARD_HEIGHT / 2));
             card.getRectangle().setWidth(CARD_WIDTH);
@@ -98,8 +121,10 @@ public class Timeline extends Application {
             date.setFont(new Font(20));
             date.setFill(Color.WHITE);
             
-            card.getRectangle().setOnMouseClicked(handleMouseClick);
+            card.getRectangle().setOnMouseClicked(handleMouseClickRect);
+            circle.setOnMouseClicked(handleMouseClickCrcl);
             
+            root.getChildren().add(circle);
             root.getChildren().add(card.getRectangle());
             root.getChildren().add(date);
         }
@@ -144,16 +169,36 @@ public class Timeline extends Application {
         return null;
     }
     
-    EventHandler<MouseEvent> handleMouseClick = new EventHandler<MouseEvent>() {
+    private void step1(double x, double y) {
+        Card card = getCardClicked(x, y);
+        Player player = getPlayerByCard(card, player1, player2);
+
+        if (player != null) {
+            if ((isPlayer1Turn && player.equals(player1)) || (!isPlayer1Turn && player.equals(player2))) {
+                this.selectedCard = card;
+                this.step = STEP_2;
+            }
+        }
+    }
+    
+    EventHandler<MouseEvent> handleMouseClickCrcl = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle (MouseEvent mouseEvent) {
+            System.out.println(".handle()");
+        }
+    };
+    
+    EventHandler<MouseEvent> handleMouseClickRect = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            Card card = getCardClicked(mouseEvent.getX(), mouseEvent.getY());
-            if (card != null) 
-                System.out.println("Card: " +card.getDate());
+            if (step == STEP_1)
+                    step1(mouseEvent.getX(), mouseEvent.getY());            
             
-            Player player = getPlayerByCard(card, player1, player2);
+            /*if (card != null) 
+                System.out.println("Card: " +card.getDate());
             if (player != null) 
                 System.out.println("Player: " +player.getPseudo());
+            */
         }
     };
     
