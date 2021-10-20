@@ -150,6 +150,10 @@ public class Timeline extends Application {
             Card card = getCardClicked(mouseEvent.getX(), mouseEvent.getY());
             if (card != null) 
                 System.out.println("Card: " +card.getDate());
+            
+            Player player = getPlayerByCard(card, player1, player2);
+            if (player != null) 
+                System.out.println("Player: " +player.getPseudo());
         }
     };
     
