@@ -217,12 +217,11 @@ public class Timeline extends Application {
                     if (board.isGoodPlay(index, selectedCard)) {
                         board.playCard(index, selectedCard);
                     } else {
+                        System.out.println("This move is bad, draw a new card.");
                         board.discardCard(selectedCard);
                         if (isPlayer1Turn) player1.drawCard(board.drawCard());
                         else player2.drawCard(board.drawCard());
                     }
-                } else {
-                    System.err.println("Selected card is null after Player.playCard.");
                 }
                 
                 root.getChildren().clear();
