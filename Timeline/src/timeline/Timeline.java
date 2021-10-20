@@ -40,13 +40,14 @@ public class Timeline extends Application {
     private static final int CARD_MARGIN_HORIZONTAL = 40;
     private static final int CARD_MARGIN_VERTICAL = 20;
     
-    private static final int STEP_1 = 1;
-    private static final int STEP_2 = 2;
+    private static final int STEP_1 = 1; // Select card
+    private static final int STEP_2 = 2; // Select position
+    private static final int STEP_3 = 3; // End of game
     
     private Group root;
     
     private Player player1, player2;
-    private boolean isPlaying, isPlayer1Turn;
+    private boolean isPlayer1Turn;
     private int step;
     private Card selectedCard;
     
@@ -224,16 +225,21 @@ public class Timeline extends Application {
                     System.err.println("Selected card is null after Player.playCard.");
                 }
                 
-                isPlayer1Turn = !isPlayer1Turn;
-                step = STEP_1;
-                
                 root.getChildren().clear();
                 drawHand(player1, isPlayer1Turn);
                 drawHand(player2, isPlayer1Turn);
                 drawPlayedCards();
                 
-                if (player1.getHand().isEmpty() || player2.getHand().isEmpty())
-                    isPlaying = false;
+                if (player1.getHand().isEmpty() || player2.getHand().isEmpty()) {
+                    step = STEP_3;
+                    Text text = new Text(isPlayer1Turn ? 10 : HEIGHT - 40, WIDTH/2, "Player " +(isPlayer1Turn  ? "1 wins." : "2 wins."));
+                    text.setFont(new Font(20));
+                    text.setFill(Color.RED);
+                    root.getChildren().add(text);
+                }
+                
+                isPlayer1Turn = !isPlayer1Turn;
+                step = STEP_1;
             }
         }
     };
@@ -249,7 +255,7 @@ public class Timeline extends Application {
     @Override
     public void start(Stage primaryStage) {
         setup();
-        isPlaying = true;
+        step = STEP_1;
         isPlayer1Turn = true;
         
         this.root = new Group();
@@ -270,35 +276,6 @@ public class Timeline extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        /*
-        while (isPlaying) {
-           System.out.println(board.playedCardsToString());
-           System.out.println("Select a card to play.");
-           System.out.println(isPlayer1Turn ? player1 : player2);
-           
-           int indexOfCard = Integer.parseInt(scanner.nextLine());
-           Card cardPlayed = isPlayer1Turn ? player1.playCard(indexOfCard) : player2.playCard(indexOfCard);
-           System.out.println(cardPlayed.toString());
-           
-           System.out.println("Where play the card?");
-           int indexToPlay = Integer.parseInt(scanner.nextLine());
-           
-           if (board.isGoodPlay(indexToPlay, cardPlayed)) {
-               board.playCard(indexToPlay, cardPlayed);
-           } else {
-               board.discardCard(cardPlayed);
-               if (isPlayer1Turn) {
-                   player1.drawCard(board.drawCard());
-               } else  {
-                   player2.drawCard(board.drawCard());
-               }
-           }
-           isPlayer1Turn = !isPlayer1Turn;
-           
-           if (player1.getHand().isEmpty() ||player2.getHand().isEmpty())
-               isPlaying = false;
-        }
-        */
     }
     
 }
