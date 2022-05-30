@@ -1,5 +1,10 @@
 # Timeline
 
+Excercie pour examen JAVA d'école d'ingénieur.
+Le but était de créer un jeu de plateau via JavaFX dans un temps défini.
+
+J'ai décidé de créer développer le jeu Timeline : https://gamerules.com/rules/timeline/
+
 ## Comment jouer avec cette interface
 Le tour du joueur est représenté avec son nom en rouge.
 Le joueur doit sélectionner une de ses cartes et ensuite sélectionner ou il souhaite la positionner.
